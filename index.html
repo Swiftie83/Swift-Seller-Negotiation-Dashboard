@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Swift Equity Solutions — Negotiation Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-body: #f4f6f9;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --text-main: #334155;
+      --text-heading: #1e293b;
+      --text-muted: #64748b;
+      --input-bg: #f8fafc;
+      --input-border: #cbd5e1;
+      --button-bg: #f1f5f9;
+      --button-text: #475569;
+      --box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.02);
+      --script-bg: #f8fafc;
+    }
+
+    [data-theme="dark"] {
+      --bg-body: #0f121d;
+      --bg-card: #141824;
+      --border-color: #1e2538;
+      --text-main: #cbd5e1;
+      --text-heading: #ffffff;
+      --text-muted: #94a3b8;
+      --input-bg: #1e2538;
+      --input-border: #2d3748;
+      --button-bg: #1e2538;
+      --button-text: #cbd5e1;
+      --box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      --script-bg: #0f121d;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg-body);
+      color: var(--text-main);
+      padding-bottom: 40px;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-heading);
+      padding: 18px 24px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      position: relative;
+    }
+
+    .header span {
+      color: #2563eb;
+      font-weight: 500;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .theme-toggle:hover {
+      background: #1d4ed8;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--box-shadow);
+    }
+
+    h2 {
+      color: var(--text-heading);
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+    }
+
+    h2::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 14px;
+      background: #2563eb;
+      border-radius: 2px;
+    }
+
+    .sub-section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-top: 18px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    textarea,
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 10px;
+      font-size: 14px;
+      color: var(--text-heading);
+      outline: none;
+      transition: all 0.15s ease;
+      margin-bottom: 14px;
+    }
+
+    textarea:focus,
+    input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+    }
+
+    table input {
+      margin-bottom: 0;
+      padding: 8px 12px;
+      text-align: right;
+    }
+
+    button {
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: 1px solid var(--input-border);
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 13px;
+      transition: all 0.15s ease;
+    }
+
+    button:hover {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: #2563eb;
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .pain-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .pain-grid button {
+      background: var(--bg-card);
+      border: 1px solid var(--input-border);
+      padding: 7px 12px;
+      font-size: 12px;
+    }
+
+    .pain-grid button:hover {
+      background: #dc2626;
+      border-color: #dc2626;
+      color: white;
+    }
+
+    .script-box {
+      background: var(--script-bg);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid #2563eb;
+      padding: 16px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      line-height: 1.55;
+      min-height: 150px;
+      font-size: 14.5px;
+      color: var(--text-main);
+    }
+
+    #openingScript {
+      border-left-color: #dc2626;
+    }
+
+    .script-instruction {
+      background: rgba(220, 38, 38, 0.05);
+      border: 1px dashed rgba(220, 38, 38, 0.2);
+      color: #ef4444;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      text-align: center;
+      margin: 12px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 6px;
+    }
+
+    table td {
+      padding: 6px 8px;
+      vertical-align: middle;
+    }
+
+    table tr td:first-child {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .total-row {
+      background: rgba(217, 119, 6, 0.08);
+    }
+
+    .profit-row {
+      background: rgba(22, 163, 74, 0.08);
+    }
+
+    .total-row td, .profit-row td {
+      padding: 10px 12px;
+      border-radius: 8px;
+    }
+
+    .total-label {
+      font-weight: 600;
+      color: #d97706 !important;
+    }
+
+    .total-value {
+      font-weight: 700;
+      color: #d97706;
+      text-align: right;
+      font-size: 15px;
+    }
+
+    .profit-label {
+      font-weight: 600;
+      color: #16a34a !important;
+    }
+
+    .profit-value {
+      font-weight: 700;
+      color: #16a34a;
+      text-align: right;
+      font-size: 15px;
+    }
+
+    .print-btn {
+      width: 100%;
+      margin-top: auto;
+      font-size: 14px;
+      padding: 12px;
+      background: #2563eb;
+      border: none;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .print-btn:hover {
+      background: #1d4ed8;
+    }
+
+    #selectedPain {
+      margin-top: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #dc2626;
+      background: rgba(220, 38, 38, 0.05);
+      padding: 6px 10px;
+      border-radius: 6px;
+      display: inline-block;
+      border: 1px solid rgba(220, 38, 38, 0.1);
+    }
+
+    #displayName, #displayNameScript {
+      color: #2563eb;
+      font-weight: 600;
+    }
+
+    @media print {
+      button, .header, input, label {
+        display: none !important;
+      }
+      body {
+        background: #ffffff;
+        color: #000000;
+      }
+      .card {
+        border: none;
+        background: #ffffff;
+        padding: 0;
+        margin-bottom: 24px;
+      }
+      .script-box {
+        background: #ffffff;
+        color: #000000;
+        border: 1px solid #e2e8f0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    Swift Equity Solutions — <span>Seller Negotiation Dashboard</span>
+    <button class="theme-toggle" onclick="toggleTheme()">Toggle Dark Mode</button>
+  </div>
+
+  <div class="container">
+
+    <!-- COLUMN 1: SELLER PROFILE & OPENING -->
+    <div class="card">
+      <h2>Seller Information</h2>
+
+      <label>Seller Name</label>
+      <input type="text" id="sellerName" placeholder="Enter Seller Name" oninput="updateSellerName()" />
+
+      <label>Property Address</label>
+      <input type="text" placeholder="Enter Property Address" />
+
+      <label>Deal Analyzer Link</label>
+      <input type="text" placeholder="Paste Deal Analyzer Link Here" />
+
+      <h2>Opening Sequence</h2>
+
+      <div class="script-box" id="openingScript">Hey <span id="displayName">[Name]</span>, thanks for taking my call. I saw your property and wanted to reach out because I help homeowners in situations like yours sell quickly without the hassle. Before we talk numbers, can you tell me a little about what's going on with the property and why you're thinking of selling?</div>
+
+      <div class="script-instruction">LISTEN. SHUT UP. LET THEM TALK.</div>
+
+      <div class="sub-section-title">Identify Pain Anchor</div>
+      <div class="pain-grid">
+        <button onclick="copyPain('Repairs too expensive')">Repairs Too Expensive</button>
+        <button onclick="copyPain('Divorce situation')">Divorce</button>
+        <button onclick="copyPain('Inheritance property')">Inheritance</button>
+        <button onclick="copyPain('Bad tenants')">Bad Tenants</button>
+        <button onclick="copyPain('Vacant property')">Vacant</button>
+        <button onclick="copyPain('Behind on payments')">Behind Payments</button>
+        <button onclick="copyPain('Relocating soon')">Relocating</button>
+        <button onclick="copyPain('Tired landlord')">Tired Landlord</button>
+      </div>
+
+      <div id="selectedPain" style="display: none;"></div>
+    </div>
+
+    <!-- COLUMN 2: LIVE DIALOGUE INTERFACE -->
+    <div class="card">
+      <h2>Motivation Tracks</h2>
+      <div class="button-grid">
+        <button onclick="setScript('repairs')">Repairs</button>
+        <button onclick="setScript('divorce')">Divorce</button>
+        <button onclick="setScript('inheritance')">Inheritance</button>
+        <button onclick="setScript('tenants')">Bad Tenants</button>
+        <button onclick="setScript('vacant')">Vacant</button>
+        <button onclick="setScript('moving')">Moving</button>
+        <button onclick="setScript('mortgage')">Mortgage Issues</button>
+        <button onclick="setScript('landlord')">Tired Landlord</button>
+      </div>
+
+      <h2>Objection Rebuttals</h2>
+      <div class="button-grid">
+        <button onclick="setScript('retail')">Want Market Value</button>
+        <button onclick="setScript('lowball')">Lowball</button>
+        <button onclick="setScript('giveaway')">Not Giving Away</button>
+        <button onclick="setScript('realtor')">List With Realtor</button>
+        <button onclick="setScript('toolow')">Offer Too Low</button>
+        <button onclick="setScript('needmoney')">Need More Money</button>
+        <button onclick="setScript('think')">Need To Think</button>
+        <button onclick="setScript('otherinvestor')">Other Investor</button>
+        <button onclick="setScript('notrush')">Not In Rush</button>
+      </div>
+
+      <h2>Live Script Screen</h2>
+      <div class="script-box" id="scriptOutput" style="border-left-color: #7c3aed;">Click any motivation track or objection rebuttal button above to view matching playbook responses instantly.</div>
+    </div>
+
+    <!-- COLUMN 3: DEAL FINANCIALS & GENERATOR -->
+    <div class="card">
+      <h2>Deal Financials</h2>
+
+      <table>
+        <tr>
+          <td>After Repair Value (ARV)</td>
+          <td><input type="text" id="arv" placeholder="$0" oninput="formatAndCalculate(this)"></td>
+        </tr>
+        <tr>
+          <td>Estimated Exit Value</td>
+          <td><input type="text" id="sellingPrice" placeholder="$0" oninput="formatAndCalculate(this)"></td>
+        </tr>
+        <tr>
+          <td>Total Capital Repairs</td>
+          <td><input type="text" id="repairs" placeholder="$0" oninput="formatAndCalculate(this)"></td>
+        </tr>
+        <tr>
+          <td>Holding Costs</td>
+          <td><input type="text" id="holding" placeholder="$0" oninput="formatAndCalculate(this)"></td>
+        </tr>
+        <tr>
+          <td>Acquisition Closing Costs</td>
+          <td><input type="text" id="closing" placeholder="$0" oninput="formatAndCalculate(this)"></td>
+        </tr>
+        <tr>
+          <td>Disposition Selling Costs</td>
+          <td><input type="text" id="sellingCost" placeholder="$0" oninput="formatAndCalculate(this)"></td>
+        </tr>
+        <tr>
+          <td>Current Seller Asking</td>
+          <td><input type="text" id="asking" placeholder="$0" oninput="formatAndCalculate(this)"></td>
+        </tr>
+        <tr class="total-row">
+          <td class="total-label">Project Break-Even Point</td>
+          <td class="total-value" id="breakEven">$0</td>
+        </tr>
+        <tr class="profit-row">
+          <td class="profit-label">Net Spread Proj.</td>
+          <td class="profit-value" id="profitLoss">$0</td>
+        </tr>
+      </table>
+
+      <div class="sub-section-title" style="margin-top: 12px;">Dynamic Cost Presentation Delivery</div>
+      <div id="dealScript" class="script-box" style="border-left-color: #16a34a; min-height: 140px; font-size: 13px; margin-bottom: 16px;">Enter deal parameters above to generate an institutional cost breakdown template for the seller.</div>
+
+      <button class="print-btn" onclick="window.print()">Print File / Export PDF</button>
+    </div>
+
+  </div>
+
+  <script>
+    const scripts = {
+      repairs: `I completely understand. A lot of homeowners are in the same situation right now. Repairs get expensive fast, especially roofs, kitchens, bathrooms, electrical, plumbing, and HVAC. Most sellers I work with simply don't want to dump more money into the property.`,
+      divorce: `I understand. Situations like this can be stressful enough already without having a property dragging things out. My goal is to make things simple and help you move forward without more headaches.`,
+      inheritance: `I understand. Inherited properties can become overwhelming fast between maintenance, taxes, cleanup, and family decisions. Most families just want a simple solution without putting more money into the home.`,
+      tenants: `Bad tenants can definitely make a property feel more like a burden than an investment. A lot of landlords I work with are just tired of the stress, damage, and constant issues.`,
+      vacant: `Vacant homes can become expensive quickly with taxes, insurance, upkeep, and risk of vandalism. Most owners simply want relief from the ongoing costs and stress.`,
+      moving: `That makes sense. Moving itself is already stressful enough. Most sellers in your situation want certainty and convenience more than dealing with repairs and months on the market.`,
+      mortgage: `I understand. A lot of homeowners are dealing with payment pressure right now. Depending on the situation, there may be creative ways we can structure something to help.`,
+      landlord: `I hear that all the time from landlords. After years of repairs, vacancies, tenant calls, and maintenance, many owners are simply ready to cash out and move on.`,
+      retail: `I completely understand. If the property is fully updated and retail-ready, listing with an agent may honestly get you the highest price. Investors just have to factor in repairs, holding costs, closing costs, and resale risk.`,
+      lowball: `I understand why people feel that way. I try to be transparent with my numbers so you understand exactly how I arrived Magi the offer. I'm not trying to pressure you — the numbers simply have to make sense for both sides.`,
+      giveaway: `And you shouldn't. Your property absolutely has value. The difference is retail buyers buy emotionally, while investors buy based on repairs, costs, and risk.`,
+      realtor: `Absolutely, and depending on the condition that may be the better option for you. Sellers usually work with me when they want speed, convenience, and don't want to deal with repairs, showings, commissions, or inspections.`,
+      toolow: `I understand. Most sellers compare investor offers to retail prices, but investors have to account for repairs, taxes, insurance, utilities, holding costs, and resale fees.`,
+      needmoney: `I understand. Let me ask you this — is your main goal getting the highest possible number, or getting the property sold quickly without having to fix anything?`,
+      think: `Of course. Selling a property is a big decision. Usually when sellers tell me they need to think about it, it's either price, timing, or uncertainty about the process. Which one do you feel is holding you back most?`,
+      otherinvestor: `That's completely possible. Just make sure you're comparing real buyers and real numbers. Some investors lock deals up high and then renegotiate later. I'd rather be upfront from the beginning.`,
+      notrush: `That actually helps. When timing is flexible, sometimes we can structure something more creatively and potentially get you better terms.`
+    };
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', targetTheme);
+      document.querySelector('.theme-toggle').innerText = targetTheme === 'dark' ? 'Toggle Light Mode' : 'Toggle Dark Mode';
+    }
+
+    function setScript(type) {
+      document.getElementById('scriptOutput').innerText = scripts[type];
+    }
+
+    function formatAndCalculate(input) {
+      let cursorPosition = input.selectionStart;
+      let originalLength = input.value.length;
+      
+      let cleanValue = input.value.replace(/[^0-9]/g, '');
+      
+      if (cleanValue === '') {
+        input.value = '';
+        calculate();
+        return;
+      }
+      
+      input.value = parseInt(cleanValue, 10).toLocaleString('en-US');
+      
+      let newLength = input.value.length;
+      input.setSelectionRange(cursorPosition + (newLength - originalLength), cursorPosition + (newLength - originalLength));
+      
+      calculate();
+    }
+
+    function getNumericValue(id) {
+      const val = document.getElementById(id).value;
+      return parseFloat(val.replace(/[^0-9.-]/g, '')) || 0;
+    }
+
+    function calculate() {
+      const arv = getNumericValue('arv');
+      const sellingPrice = getNumericValue('sellingPrice');
+      const holding = getNumericValue('holding');
+      const repairs = getNumericValue('repairs');
+      const closing = getNumericValue('closing');
+      const sellingCost = getNumericValue('sellingCost');
+      const asking = getNumericValue('asking');
+      const sellerName = document.getElementById('sellerName').value || 'Seller';
+
+      const breakEven = holding + repairs + closing + sellingCost + asking;
+      const profit = sellingPrice - breakEven;
+
+      document.getElementById('breakEven').innerText = '$' + breakEven.toLocaleString('en-US');
+      document.getElementById('profitLoss').innerText = '$' + profit.toLocaleString('en-US');
+
+      let script = `Look ${sellerName}, when we purchase properties in this market, we have to evaluate the file from an institutional investment perspective to protect our capital and ensure viability.
+
+` +
+      `If we complete a high-end capital renovation on this home, we project an After Repair Value (ARV) of roughly $${arv.toLocaleString('en-US')}.
+
+` +
+      `However, to realize that number, we have to inject an estimated $${repairs.toLocaleString('en-US')} into hard repairs. We also have to carry capital holding allocations of $${holding.toLocaleString('en-US')}, up-front closing costs of $${closing.toLocaleString('en-US')}, and standard brokerage asset disposal fees of $${sellingCost.toLocaleString('en-US')}.
+
+` +
+      `If we were to take on the property at your current asking framework of $${asking.toLocaleString('en-US')}, our baseline capital allocation totals $${breakEven.toLocaleString('en-US')}.
+
+`;
+
+      if (profit > 0) {
+        script += `This leaves our firm with a forecasted operational margin of $${profit.toLocaleString('en-US')} prior to accounting for unforeseen structural variables, material delays, and shifts in regional risk.`;
+      } else {
+        script += `At that request valuation, there is no viable yield available—in fact, our position would face a net write-down of $${Math.abs(profit).toLocaleString('en-US')}. To create a win-win scenario, we need to balance your needs with a number that leaves the transaction financially sound.`;
+      }
+
+      document.getElementById('dealScript').innerText = script;
+    }
+
+    function copyPain(text) {
+      const el = document.getElementById('selectedPain');
+      el.style.display = "inline-block";
+      el.innerText = 'Active Anchor: ' + text;
+      navigator.clipboard.writeText(text);
+    }
+
+    function updateSellerName() {
+      const sellerName = document.getElementById('sellerName').value || '[Name]';
+      document.getElementById('displayName').innerText = sellerName;
+      calculate(); 
+    }
+  </script>
+
+</body>
+</html>
