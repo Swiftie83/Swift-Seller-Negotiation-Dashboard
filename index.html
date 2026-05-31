@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Swift Equity Solutions — Negotiation Dashboard</title>
+  <title>Swift Equity Solutions — Operational Hub</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -19,6 +19,11 @@
       --button-text: #475569;
       --box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.02);
       --script-bg: #f8fafc;
+      
+      --accent-blue: #2563eb;
+      --accent-green: #16a34a;
+      --accent-amber: #d97706;
+      --accent-red: #dc2626;
     }
 
     [data-theme="dark"] {
@@ -45,7 +50,7 @@
       margin: 0;
       background: var(--bg-body);
       color: var(--text-main);
-      padding-bottom: 40px;
+      padding-bottom: 60px;
       -webkit-font-smoothing: antialiased;
       transition: background 0.2s ease, color 0.2s ease;
     }
@@ -64,7 +69,7 @@
     }
 
     .header span {
-      color: #2563eb;
+      color: var(--accent-blue);
       font-weight: 500;
     }
 
@@ -73,7 +78,7 @@
       right: 24px;
       top: 50%;
       transform: translateY(-50%);
-      background: #2563eb;
+      background: var(--accent-blue);
       color: #ffffff;
       border: none;
       padding: 8px 14px;
@@ -85,6 +90,71 @@
 
     .theme-toggle:hover {
       background: #1d4ed8;
+    }
+
+    /* Primary Navigation Tabs System */
+    .master-navigation-bar {
+      display: flex;
+      justify-content: center;
+      margin: 24px auto 0 auto;
+      max-width: 550px;
+      background: var(--bg-card);
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--box-shadow);
+    }
+
+    .master-nav-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .master-nav-btn.active {
+      background: var(--accent-blue);
+      color: #ffffff;
+    }
+
+    /* Sub-Analyzer System Mode Toggles */
+    .sub-toggle-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      margin-bottom: -10px;
+    }
+
+    .sub-toggle-wrapper {
+      background: var(--bg-card);
+      padding: 4px;
+      border-radius: 8px;
+      display: inline-flex;
+      gap: 4px;
+      border: 1px solid var(--border-color);
+    }
+
+    .sub-toggle-btn {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      transition: all 0.15s ease;
+    }
+
+    .sub-toggle-btn.active {
+      background: var(--accent-green);
+      color: white;
     }
 
     .container {
@@ -124,7 +194,7 @@
       display: inline-block;
       width: 3px;
       height: 14px;
-      background: #2563eb;
+      background: var(--accent-blue);
       border-radius: 2px;
     }
 
@@ -146,8 +216,7 @@
       display: block;
     }
 
-    textarea,
-    input {
+    select, textarea, input {
       width: 100%;
       padding: 12px 14px;
       background: var(--input-bg);
@@ -160,10 +229,28 @@
       margin-bottom: 14px;
     }
 
-    textarea:focus,
-    input:focus {
-      border-color: #2563eb;
+    select {
+      cursor: pointer;
+    }
+
+    textarea:focus, input:focus, select:focus {
+      border-color: var(--accent-blue);
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+    }
+
+    input[readonly] {
+      background: rgba(0, 0, 0, 0.03);
+      border-style: dashed;
+    }
+    [data-theme="dark"] input[readonly] {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .highlight-input input {
+      background: rgba(22, 163, 74, 0.05);
+      border-color: var(--accent-green);
+      font-weight: 700;
+      font-size: 16px;
     }
 
     table input {
@@ -185,9 +272,9 @@
     }
 
     button:hover {
-      background: #2563eb;
+      background: var(--accent-blue);
       color: #ffffff;
-      border-color: #2563eb;
+      border-color: var(--accent-blue);
     }
 
     .button-grid {
@@ -195,6 +282,27 @@
       grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
       gap: 8px;
       margin-bottom: 18px;
+    }
+
+    /* Style for toggled tracks and rebuttals */
+    .button-grid button.active-selection {
+      background: var(--accent-blue) !important;
+      color: #ffffff !important;
+      border-color: var(--accent-blue) !important;
+    }
+
+    .flex-button-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .flex-button-row button {
+      flex: 1;
+    }
+    .flex-button-row button.active {
+      background: var(--accent-blue);
+      color: white;
+      border-color: var(--accent-blue);
     }
 
     .pain-grid {
@@ -212,15 +320,15 @@
     }
 
     .pain-grid button:hover {
-      background: #dc2626;
-      border-color: #dc2626;
+      background: var(--accent-red);
+      border-color: var(--accent-red);
       color: white;
     }
 
     .script-box {
       background: var(--script-bg);
       border: 1px solid var(--border-color);
-      border-left: 3px solid #2563eb;
+      border-left: 3px solid var(--accent-blue);
       padding: 16px;
       border-radius: 12px;
       white-space: pre-wrap;
@@ -231,7 +339,7 @@
     }
 
     #openingScript {
-      border-left-color: #dc2626;
+      border-left-color: var(--accent-red);
     }
 
     .script-instruction {
@@ -245,6 +353,30 @@
       letter-spacing: 0.5px;
       text-align: center;
       margin: 12px 0;
+    }
+
+    .kill-box-alert {
+      background: rgba(220, 38, 38, 0.08);
+      border: 1px dashed var(--accent-red);
+      color: var(--accent-red);
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 14px;
+      display: none;
+    }
+
+    .formula-reference-box {
+      background: var(--script-bg);
+      border: 1px dashed var(--border-color);
+      padding: 10px;
+      font-size: 11.5px;
+      border-radius: 8px;
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 14px;
     }
 
     table {
@@ -264,49 +396,30 @@
       color: var(--text-muted);
     }
 
-    .total-row {
-      background: rgba(217, 119, 6, 0.08);
-    }
-
-    .profit-row {
-      background: rgba(22, 163, 74, 0.08);
-    }
+    .total-row { background: rgba(217, 119, 6, 0.08); }
+    .profit-row { background: rgba(22, 163, 74, 0.08); }
+    .breakdown-row { border-bottom: 1px solid var(--border-color); }
+    
+    .breakdown-label { font-size: 13px; font-weight: 500; color: var(--text-main); }
+    .breakdown-value { font-size: 14px; font-weight: 600; text-align: right; color: var(--text-heading); }
 
     .total-row td, .profit-row td {
       padding: 10px 12px;
       border-radius: 8px;
     }
 
-    .total-label {
-      font-weight: 600;
-      color: #d97706 !important;
-    }
+    .total-label { font-weight: 600; color: var(--accent-amber) !important; }
+    .total-value { font-weight: 700; color: var(--accent-amber); text-align: right; font-size: 15px; }
 
-    .total-value {
-      font-weight: 700;
-      color: #d97706;
-      text-align: right;
-      font-size: 15px;
-    }
-
-    .profit-label {
-      font-weight: 600;
-      color: #16a34a !important;
-    }
-
-    .profit-value {
-      font-weight: 700;
-      color: #16a34a;
-      text-align: right;
-      font-size: 15px;
-    }
+    .profit-label { font-weight: 600; color: var(--accent-green) !important; }
+    .profit-value { font-weight: 700; color: var(--accent-green); text-align: right; font-size: 15px; }
 
     .print-btn {
       width: 100%;
       margin-top: auto;
       font-size: 14px;
       padding: 12px;
-      background: #2563eb;
+      background: var(--accent-blue);
       border: none;
       color: #ffffff;
       font-weight: 600;
@@ -320,7 +433,7 @@
       margin-top: 12px;
       font-size: 12px;
       font-weight: 500;
-      color: #dc2626;
+      color: var(--accent-red);
       background: rgba(220, 38, 38, 0.05);
       padding: 6px 10px;
       border-radius: 6px;
@@ -329,12 +442,16 @@
     }
 
     #displayName, #displayNameScript {
-      color: #2563eb;
+      color: var(--accent-blue);
       font-weight: 600;
     }
 
+    .view-section-hidden {
+      display: none !important;
+    }
+
     @media print {
-      button, .header, input, label {
+      button, .header, .master-navigation-bar, .sub-toggle-container, input, label, select {
         display: none !important;
       }
       body {
@@ -357,131 +474,349 @@
 </head>
 <body>
 
+  <!-- Workspace Header Context Wrapper -->
   <div class="header">
-    Swift Equity Solutions — <span>Seller Negotiation Dashboard</span>
+    Swift Equity Solutions — <span>Seller Acquisition Workspace</span>
     <button class="theme-toggle" onclick="toggleTheme()">Toggle Dark Mode</button>
   </div>
 
-  <div class="container">
+  <!-- Master Hub Route Selectors -->
+  <div class="master-navigation-bar">
+    <button class="master-nav-btn active" id="btnNavNego" onclick="changeWorkspaceRoute('negotiation')">Negotiation Dashboard</button>
+    <button class="master-nav-btn" id="btnNavCalc" onclick="changeWorkspaceRoute('analyzer')">Swift Deal Analyzer v.20</button>
+  </div>
 
-    <!-- COLUMN 1: SELLER PROFILE & OPENING -->
-    <div class="card">
-      <h2>Seller Information</h2>
+  <!-- Secondary Inline Sub Mode Menu Selector -->
+  <div class="sub-toggle-container view-section-hidden" id="analyzerSubMenu">
+    <div class="sub-toggle-wrapper">
+      <button class="sub-toggle-btn active" id="subBtnWholesale" onclick="changeAnalyzerMode('wholesale')">Wholesale Matrix</button>
+      <button class="sub-toggle-btn" id="subBtnRental" onclick="changeAnalyzerMode('rental')">Rental Analytics</button>
+      <button class="sub-toggle-btn" id="subBtnCreative" onclick="changeAnalyzerMode('creative')">Creative Structuring</button>
+    </div>
+  </div>
 
-      <label>Seller Name</label>
-      <input type="text" id="sellerName" placeholder="Enter Seller Name" oninput="updateSellerName()" />
+  <!-- VIEW 1: SELLER NEGOTIATION TRACKER RUNTIME -->
+  <div id="workspaceRouteNegotiation">
+    <div class="container">
 
-      <label>Property Address</label>
-      <input type="text" placeholder="Enter Property Address" />
+      <!-- COLUMN 1: SELLER PROFILE & OPENING -->
+      <div class="card">
+        <h2>Seller Information</h2>
 
-      <label>Deal Analyzer Link</label>
-      <input type="text" placeholder="Paste Deal Analyzer Link Here" />
+        <label>Seller Name</label>
+        <input type="text" id="sellerName" placeholder="Enter Seller Name" oninput="updateSellerName()" />
 
-      <h2>Opening Sequence</h2>
+        <label>Property Address</label>
+        <input type="text" id="negoAddress" placeholder="Enter Property Address" />
 
-      <div class="script-box" id="openingScript">Hey <span id="displayName">[Name]</span>, thanks for taking my call. I saw your property and wanted to reach out because I help homeowners in situations like yours sell quickly without the hassle. Before we talk numbers, can you tell me a little about what's going on with the property and why you're thinking of selling?</div>
+        <label>Deal Analyzer Link</label>
+        <input type="text" placeholder="Paste Deal Analyzer Link Here" />
 
-      <div class="script-instruction">LISTEN. SHUT UP. LET THEM TALK.</div>
+        <h2>Opening Sequence</h2>
 
-      <div class="sub-section-title">Identify Pain Anchor</div>
-      <div class="pain-grid">
-        <button onclick="copyPain('Repairs too expensive')">Repairs Too Expensive</button>
-        <button onclick="copyPain('Divorce situation')">Divorce</button>
-        <button onclick="copyPain('Inheritance property')">Inheritance</button>
-        <button onclick="copyPain('Bad tenants')">Bad Tenants</button>
-        <button onclick="copyPain('Vacant property')">Vacant</button>
-        <button onclick="copyPain('Behind on payments')">Behind Payments</button>
-        <button onclick="copyPain('Relocating soon')">Relocating</button>
-        <button onclick="copyPain('Tired landlord')">Tired Landlord</button>
+        <div class="script-box" id="openingScript">Hey <span id="displayName">[Name]</span>, thanks for taking my call. I saw your property and wanted to reach out because I help homeowners in situations like yours sell quickly without the hassle. Before we talk numbers, can you tell me a little about what's going on with the property and why you're thinking of selling?</div>
+
+        <div class="script-instruction">LISTEN. SHUT UP. LET THEM TALK.</div>
+
+        <div class="sub-section-title">Identify Pain Anchor</div>
+        <div class="pain-grid">
+          <button onclick="copyPain('Repairs too expensive')">Repairs Too Expensive</button>
+          <button onclick="copyPain('Divorce situation')">Divorce</button>
+          <button onclick="copyPain('Inheritance property')">Inheritance</button>
+          <button onclick="copyPain('Bad tenants')">Bad Tenants</button>
+          <button onclick="copyPain('Vacant property')">Vacant</button>
+          <button onclick="copyPain('Behind on payments')">Behind Payments</button>
+          <button onclick="copyPain('Relocating soon')">Relocating</button>
+          <button onclick="copyPain('Tired landlord')">Tired Landlord</button>
+        </div>
+
+        <div id="selectedPain" style="display: none;"></div>
       </div>
 
-      <div id="selectedPain" style="display: none;"></div>
-    </div>
+      <!-- COLUMN 2: LIVE DIALOGUE INTERFACE -->
+      <div class="card">
+        <h2>Motivation Tracks</h2>
+        <div class="button-grid" id="motivationGroup">
+          <button onclick="handleTrackSelection(this, 'repairs')">Repairs</button>
+          <button onclick="handleTrackSelection(this, 'divorce')">Divorce</button>
+          <button onclick="handleTrackSelection(this, 'inheritance')">Inheritance</button>
+          <button onclick="handleTrackSelection(this, 'tenants')">Bad Tenants</button>
+          <button onclick="handleTrackSelection(this, 'vacant')">Vacant</button>
+          <button onclick="handleTrackSelection(this, 'moving')">Moving</button>
+          <button onclick="handleTrackSelection(this, 'mortgage')">Mortgage Issues</button>
+          <button onclick="handleTrackSelection(this, 'landlord')">Tired Landlord</button>
+        </div>
 
-    <!-- COLUMN 2: LIVE DIALOGUE INTERFACE -->
-    <div class="card">
-      <h2>Motivation Tracks</h2>
-      <div class="button-grid">
-        <button onclick="setScript('repairs')">Repairs</button>
-        <button onclick="setScript('divorce')">Divorce</button>
-        <button onclick="setScript('inheritance')">Inheritance</button>
-        <button onclick="setScript('tenants')">Bad Tenants</button>
-        <button onclick="setScript('vacant')">Vacant</button>
-        <button onclick="setScript('moving')">Moving</button>
-        <button onclick="setScript('mortgage')">Mortgage Issues</button>
-        <button onclick="setScript('landlord')">Tired Landlord</button>
+        <h2>Objection Rebuttals</h2>
+        <div class="button-grid" id="rebuttalGroup">
+          <button onclick="handleRebuttalSelection(this, 'retail')">Want Market Value</button>
+          <button onclick="handleRebuttalSelection(this, 'lowball')">Lowball</button>
+          <button onclick="handleRebuttalSelection(this, 'giveaway')">Not Giving Away</button>
+          <button onclick="handleRebuttalSelection(this, 'realtor')">List With Realtor</button>
+          <button onclick="handleRebuttalSelection(this, 'toolow')">Offer Too Low</button>
+          <button onclick="handleRebuttalSelection(this, 'needmoney')">Need More Money</button>
+          <button onclick="handleRebuttalSelection(this, 'think')">Need To Think</button>
+          <button onclick="handleRebuttalSelection(this, 'otherinvestor')">Other Investor</button>
+          <button onclick="handleRebuttalSelection(this, 'notrush')">Not In Rush</button>
+        </div>
+
+        <h2>Live Script Screen</h2>
+        <div class="script-box" id="scriptOutput" style="border-left-color: #7c3aed;">Click any motivation track or objection rebuttal button above to view matching playbook responses instantly.</div>
       </div>
 
-      <h2>Objection Rebuttals</h2>
-      <div class="button-grid">
-        <button onclick="setScript('retail')">Want Market Value</button>
-        <button onclick="setScript('lowball')">Lowball</button>
-        <button onclick="setScript('giveaway')">Not Giving Away</button>
-        <button onclick="setScript('realtor')">List With Realtor</button>
-        <button onclick="setScript('toolow')">Offer Too Low</button>
-        <button onclick="setScript('needmoney')">Need More Money</button>
-        <button onclick="setScript('think')">Need To Think</button>
-        <button onclick="setScript('otherinvestor')">Other Investor</button>
-        <button onclick="setScript('notrush')">Not In Rush</button>
+      <!-- COLUMN 3: SWIFT DEALS OVERVIEW & GENERATOR -->
+      <div class="card">
+        <h2>Swift Deals Overview</h2>
+
+        <table>
+          <tr>
+            <td>After Repair Value (ARV)</td>
+            <td><input type="text" id="arv" placeholder="$0" oninput="formatAndCalculate(this)"></td>
+          </tr>
+          <tr>
+            <td>Estimated Exit Value</td>
+            <td><input type="text" id="sellingPrice" placeholder="$0" oninput="formatAndCalculate(this)"></td>
+          </tr>
+          <tr>
+            <td>Total Capital Repairs</td>
+            <td><input type="text" id="repairs" placeholder="$0" oninput="formatAndCalculate(this)"></td>
+          </tr>
+          <tr>
+            <td>Holding Costs</td>
+            <td><input type="text" id="holding" placeholder="$0" oninput="formatAndCalculate(this)"></td>
+          </tr>
+          <tr>
+            <td>Acquisition Closing Costs</td>
+            <td><input type="text" id="closing" placeholder="$0" oninput="formatAndCalculate(this)"></td>
+          </tr>
+          <tr>
+            <td>Disposition Selling Costs</td>
+            <td><input type="text" id="sellingCost" placeholder="$0" oninput="formatAndCalculate(this)"></td>
+          </tr>
+          <tr>
+            <td>Current Seller Asking</td>
+            <td><input type="text" id="asking" placeholder="$0" oninput="formatAndCalculate(this)"></td>
+          </tr>
+          <tr class="total-row">
+            <td class="total-label">Project Break-Even Point</td>
+            <td class="total-value" id="breakEven">$0</td>
+          </tr>
+          <tr class="profit-row">
+            <td class="profit-label">Net Spread Proj.</td>
+            <td class="profit-value" id="profitLoss">$0</td>
+          </tr>
+        </table>
+
+        <div class="sub-section-title" style="margin-top: 12px;">Dynamic Cost Presentation Delivery</div>
+        <div id="dealScript" class="script-box" style="border-left-color: var(--accent-green); min-height: 140px; font-size: 13px; margin-bottom: 16px;">Enter deal parameters above to generate an institutional cost breakdown template for the seller.</div>
+
+        <button class="print-btn" onclick="window.print()">Print File / Export PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 2: MULTI-MODE ANALYZER SYSTEM RUNTIME -->
+  <div id="workspaceRouteAnalyzer" class="view-section-hidden">
+    <div class="container">
+      
+      <!-- CALCULATOR CONFIGURATION CARD CONTROLLER -->
+      <div class="card">
+        <!-- MODE A: WHOLESALE ENTRY UTILITIES -->
+        <div class="mode-view-wholesale">
+          <h2>Wholesale Optimization Engine</h2>
+          
+          <label>Target Asset Address</label>
+          <input type="text" id="calcAddress" placeholder="Enter Property Address">
+
+          <div style="display: flex; gap: 12px;">
+            <div style="flex: 1;">
+              <label>Asset Layout Type</label>
+              <select id="calcPropType" onchange="runWholesaleEngineCalculations()">
+                <option value="SFH">Single Family Home</option>
+                <option value="MFH">Multi-Family Space</option>
+              </select>
+            </div>
+            <div style="flex: 1;">
+              <label>Bedrooms Count</label>
+              <input type="number" id="calcBeds" value="3" min="0" oninput="runWholesaleEngineCalculations()">
+            </div>
+          </div>
+
+          <!-- Automated 2-BR Single Family Constraints Kill Guardrail Box -->
+          <div class="kill-box-alert" id="calcKillBox">
+            ⚠️ 2-BR Single Family Profile: Acquisition Target Killed
+          </div>
+
+          <label>Target Rule Multiplier Percentage</label>
+          <div class="flex-button-row">
+            <button class="percent-btn active" id="btnRule60" onclick="updateActiveRuleFactor(0.60)">60% Rule</button>
+            <button class="percent-btn" id="btnRule65" onclick="updateActiveRuleFactor(0.65)">65% Rule</button>
+            <button class="percent-btn" id="btnRule70" onclick="updateActiveRuleFactor(0.70)">70% Rule</button>
+            <button class="percent-btn" id="btnRule80" onclick="updateActiveRuleFactor(0.80)">80% Rule</button>
+          </div>
+
+          <label>After Repair Value (ARV)</label>
+          <input type="text" id="calcArv" placeholder="$0" oninput="formatCurrencyString(this); runWholesaleEngineCalculations();">
+
+          <label>Total Repair Costs Estimate</label>
+          <input type="text" id="calcRepairs" placeholder="$0" oninput="formatCurrencyString(this); runWholesaleEngineCalculations();">
+
+          <label>Wholesale Assignment Target %</label>
+          <input type="number" id="calcWholesalePct" value="5" min="0" oninput="runWholesaleEngineCalculations()">
+
+          <label>Buyer Risk Margin Protection Buffer</label>
+          <select id="calcBuyerBuffer" onchange="runWholesaleEngineCalculations()">
+            <option value="0.15">15% Safety Buffer Margin</option>
+            <option value="0.12">12% Safety Buffer Margin</option>
+            <option value="0.10">10% Safety Buffer Margin</option>
+            <option value="0.00">0% Safety Buffer Margin</option>
+          </select>
+
+          <div class="highlight-input">
+            <label>Maximum Allowed Offer (MAO Target Limit)</label>
+            <input type="text" id="calcMaoOutput" readonly placeholder="$0">
+          </div>
+        </div>
+
+        <!-- MODE B: RENTAL ENTRY UTILITIES -->
+        <div class="mode-view-rental view-section-hidden">
+          <h2>Cashflow Rental Underwriting</h2>
+          
+          <label>Monthly Gross Projected Rental Yield</label>
+          <input type="text" id="rentGross" placeholder="$0" oninput="formatCurrencyString(this); runRentalEngineCalculations();">
+
+          <label>Target Purchase Valuation Price</label>
+          <input type="text" id="rentPurchase" placeholder="$0" oninput="formatCurrencyString(this); runRentalEngineCalculations();">
+
+          <label>Capital Outlay Allocation (Down Payment)</label>
+          <input type="text" id="rentDown" placeholder="$0" oninput="formatCurrencyString(this); runRentalEngineCalculations();">
+
+          <label>Monthly Debt Service (Principal & Interest Only)</label>
+          <input type="text" id="rentMortgage" placeholder="$0" oninput="formatCurrencyString(this); runRentalEngineCalculations();">
+
+          <label>Monthly Operating Overhead Expenses (Tax, Ins, Maint)</label>
+          <input type="text" id="rentExpenses" placeholder="$0" oninput="formatCurrencyString(this); runRentalEngineCalculations();">
+        </div>
+
+        <!-- MODE C: CREATIVE ENTRY UTILITIES -->
+        <div class="mode-view-creative view-section-hidden">
+          <h2>Creative Terms Optimization</h2>
+
+          <label>Agreed Asset Transaction Purchase Price</label>
+          <input type="text" id="creativePrice" placeholder="$0" oninput="formatCurrencyString(this); runCreativeEngineCalculations();">
+
+          <label>Initial Capital Down Payment Obligation</label>
+          <input type="text" id="creativeDown" placeholder="$0" oninput="formatCurrencyString(this); runCreativeEngineCalculations();">
+
+          <label>Seller Terms Underwriting Strategy Profile</label>
+          <select id="creativeStructure" onchange="runCreativeEngineCalculations()">
+            <option value="PO">Owner Finance (Principal-Only Payments Structure Style)</option>
+            <option value="SUB2">Subject-To (Existing Loan Portfolio Matrix Style)</option>
+          </select>
+
+          <label>Amortization Length Horizon (Months)</label>
+          <input type="number" id="creativeTerms" value="360" min="1" oninput="runCreativeEngineCalculations()">
+
+          <label>Expected Target Monthly Market Rental Income</label>
+          <input type="text" id="creativeRent" placeholder="$0" oninput="formatCurrencyString(this); runCreativeEngineCalculations();">
+
+          <label>Asset Monthly Operational Fixed Maintenance Costs</label>
+          <input type="text" id="creativeExpenses" placeholder="$0" oninput="formatCurrencyString(this); runCreativeEngineCalculations();">
+        </div>
+
+        <button class="print-btn" style="background: var(--button-text); margin-top: 14px;" onclick="resetActiveCalculatorForms()">Clear Current Parameters</button>
       </div>
 
-      <h2>Live Script Screen</h2>
-      <div class="script-box" id="scriptOutput" style="border-left-color: #7c3aed;">Click any motivation track or objection rebuttal button above to view matching playbook responses instantly.</div>
+      <!-- MATRIX BREAKDOWNS & SCRIPT DISPATCHERS WRAPPER -->
+      <div class="card">
+        
+        <!-- DISPLAY OUTPUT MATRICES: WHOLESALE -->
+        <div class="mode-view-wholesale">
+          <h2>Underwriting Component Breakdown</h2>
+          <table>
+            <tr class="breakdown-row"><td class="breakdown-label">After Repair Value (ARV) Baseline</td><td class="breakdown-value" id="compArv">$0</td></tr>
+            <tr class="breakdown-row"><td class="breakdown-label">AS-IS Target Valuation Multiplier Value</td><td class="breakdown-value" id="compAsis">$0</td></tr>
+            <tr class="breakdown-row"><td class="breakdown-label">Project Rehabilitation Budget Allocation</td><td class="breakdown-value" id="compRepairs">-$0</td></tr>
+            <tr class="breakdown-row"><td class="breakdown-label">Wholesale Assignment Target Fee Value</td><td class="breakdown-value" id="compFee">-$0</td></tr>
+            <tr class="breakdown-row"><td class="breakdown-label">Buyer Risk Purchase Protection Margin</td><td class="breakdown-value" id="compBuffer">-$0</td></tr>
+            <tr class="total-row">
+              <td class="total-label">Maximum Allowed Purchase Acquisition Offer (MAO)</td>
+              <td class="total-value" id="compMao">$0</td>
+            </tr>
+          </table>
+
+          <div class="formula-reference-box">
+            Validation Rule Structure: ARV × <span id="txtRuleDisplay">60</span>% − Repairs − Wholesale Fee − Buyer Safety Buffer
+          </div>
+
+          <h2>Investor Matrix Forecast Yields</h2>
+          <table>
+            <tr class="breakdown-row"><td class="breakdown-label">Projected Cash Buyer Disposition Price</td><td class="breakdown-value" id="yieldBuyerPrice">$0</td></tr>
+            <tr class="breakdown-row"><td class="breakdown-label">Net Wholesaler Contract Assignment Spread</td><td class="breakdown-value" id="yieldWholesaleSpread">$0</td></tr>
+            <tr class="profit-row">
+              <td class="profit-label">Transaction Assessment Classification</td>
+              <td class="profit-value" id="yieldGrade">-</td>
+            </tr>
+          </table>
+
+          <button class="print-btn" style="margin-top: 18px;" onclick="copyStructuredOfferClipboardText()"><i class="fa-solid fa-copy"></i> Copy Structured Offer Submission Briefing</button>
+        </div>
+
+        <!-- DISPLAY OUTPUT MATRICES: RENTAL -->
+        <div class="mode-view-rental view-section-hidden">
+          <h2>Yield Architecture Matrices</h2>
+          <table>
+            <tr class="breakdown-row"><td class="breakdown-label">Monthly Gross Target Revenue Yield</td><td class="breakdown-value" id="mRentGross">$0</td></tr>
+            <tr class="breakdown-row"><td class="breakdown-label">− Monthly Financed Debt Principal Interest</td><td class="breakdown-value" id="mRentDebt">-$0</td></tr>
+            <tr class="breakdown-row"><td class="breakdown-label">− Operating Maintenance Overhead Expenses</td><td class="breakdown-value" id="mRentExp">-$0</td></tr>
+            <tr class="profit-row">
+              <td class="profit-label">Monthly Liquid Net Asset Cashflow Yield</td>
+              <td class="profit-value" id="mRentCashflow">$0</td>
+            </tr>
+            <tr class="total-row">
+              <td class="total-label">Cash-on-Cash Return Yield Percentage</td>
+              <td class="total-value" id="mRentCoc">0.00%</td>
+            </tr>
+            <tr class="total-row">
+              <td class="total-label">Asset Portfolio Capitalization Rate Metric</td>
+              <td class="total-value" id="mRentCap">0.00%</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- DISPLAY OUTPUT MATRICES: CREATIVE -->
+        <div class="mode-view-creative view-section-hidden">
+          <h2>Underwritten Strategy Asset Forecasts</h2>
+          <table>
+            <tr class="breakdown-row"><td class="breakdown-label">Financed Underwritten Loan Balance Principal</td><td class="breakdown-value" id="mCreFinanced">$0</td></tr>
+            <tr class="breakdown-row"><td class="breakdown-label">Monthly Principal-Only Payment Execution</td><td class="breakdown-value" id="mCreDebt">-$0</td></tr>
+            <tr class="breakdown-row"><td class="breakdown-label">Fixed Asset Maintenance Overhead Fees</td><td class="breakdown-value" id="mCreExp">-$0</td></tr>
+            <tr class="profit-row">
+              <td class="profit-label">Net Creative Cash Flow Yield Spread</td>
+              <td class="profit-value" id="mCreCashflow">$0</td>
+            </tr>
+            <tr class="total-row">
+              <td class="total-label">Cash-on-Cash Return Metrics Forecast</td>
+              <td class="total-value" id="mCreCoc">0.00%</td>
+            </tr>
+          </table>
+
+          <div class="sub-section-title" style="margin-top: 14px;">Creative Presentation Context Text</div>
+          <div class="script-box" id="creativeScriptDisplay" style="border-left-color: var(--accent-amber); min-height: 120px; font-size: 13px;">Enter configuration parameters to build compliance tracking documentation logs.</div>
+        </div>
+
+      </div>
+
     </div>
-
-    <!-- COLUMN 3: DEAL FINANCIALS & GENERATOR -->
-    <div class="card">
-      <h2>Deal Financials</h2>
-
-      <table>
-        <tr>
-          <td>After Repair Value (ARV)</td>
-          <td><input type="text" id="arv" placeholder="$0" oninput="formatAndCalculate(this)"></td>
-        </tr>
-        <tr>
-          <td>Estimated Exit Value</td>
-          <td><input type="text" id="sellingPrice" placeholder="$0" oninput="formatAndCalculate(this)"></td>
-        </tr>
-        <tr>
-          <td>Total Capital Repairs</td>
-          <td><input type="text" id="repairs" placeholder="$0" oninput="formatAndCalculate(this)"></td>
-        </tr>
-        <tr>
-          <td>Holding Costs</td>
-          <td><input type="text" id="holding" placeholder="$0" oninput="formatAndCalculate(this)"></td>
-        </tr>
-        <tr>
-          <td>Acquisition Closing Costs</td>
-          <td><input type="text" id="closing" placeholder="$0" oninput="formatAndCalculate(this)"></td>
-        </tr>
-        <tr>
-          <td>Disposition Selling Costs</td>
-          <td><input type="text" id="sellingCost" placeholder="$0" oninput="formatAndCalculate(this)"></td>
-        </tr>
-        <tr>
-          <td>Current Seller Asking</td>
-          <td><input type="text" id="asking" placeholder="$0" oninput="formatAndCalculate(this)"></td>
-        </tr>
-        <tr class="total-row">
-          <td class="total-label">Project Break-Even Point</td>
-          <td class="total-value" id="breakEven">$0</td>
-        </tr>
-        <tr class="profit-row">
-          <td class="profit-label">Net Spread Proj.</td>
-          <td class="profit-value" id="profitLoss">$0</td>
-        </tr>
-      </table>
-
-      <div class="sub-section-title" style="margin-top: 12px;">Dynamic Cost Presentation Delivery</div>
-      <div id="dealScript" class="script-box" style="border-left-color: #16a34a; min-height: 140px; font-size: 13px; margin-bottom: 16px;">Enter deal parameters above to generate an institutional cost breakdown template for the seller.</div>
-
-      <button class="print-btn" onclick="window.print()">Print File / Export PDF</button>
-    </div>
-
   </div>
 
   <script>
-    const scripts = {
+    // System Configurations Workspace Properties Matrix
+    let CURRENT_RULE_PERCENT_FACTOR = 0.60;
+    let ACTIVE_WORKSPACE_VIEW = "negotiation";
+    let ACTIVE_ANALYZER_MODE = "wholesale";
+
+    const playbookScriptDatabase = {
       repairs: `I completely understand. A lot of homeowners are in the same situation right now. Repairs get expensive fast, especially roofs, kitchens, bathrooms, electrical, plumbing, and HVAC. Most sellers I work with simply don't want to dump more money into the property.`,
       divorce: `I understand. Situations like this can be stressful enough already without having a property dragging things out. My goal is to make things simple and help you move forward without more headaches.`,
       inheritance: `I understand. Inherited properties can become overwhelming fast between maintenance, taxes, cleanup, and family decisions. Most families just want a simple solution without putting more money into the home.`,
@@ -491,7 +826,7 @@
       mortgage: `I understand. A lot of homeowners are dealing with payment pressure right now. Depending on the situation, there may be creative ways we can structure something to help.`,
       landlord: `I hear that all the time from landlords. After years of repairs, vacancies, tenant calls, and maintenance, many owners are simply ready to cash out and move on.`,
       retail: `I completely understand. If the property is fully updated and retail-ready, listing with an agent may honestly get you the highest price. Investors just have to factor in repairs, holding costs, closing costs, and resale risk.`,
-      lowball: `I understand why people feel that way. I try to be transparent with my numbers so you understand exactly how I arrived Magi the offer. I'm not trying to pressure you — the numbers simply have to make sense for both sides.`,
+      lowball: `I understand why people feel that way. I try to be transparent with my numbers so you understand exactly how I arrived at the offer. I'm not trying to pressure you — the numbers simply have to make sense for both sides.`,
       giveaway: `And you shouldn't. Your property absolutely has value. The difference is retail buyers buy emotionally, while investors buy based on repairs, costs, and risk.`,
       realtor: `Absolutely, and depending on the condition that may be the better option for you. Sellers usually work with me when they want speed, convenience, and don't want to deal with repairs, showings, commissions, or inspections.`,
       toolow: `I understand. Most sellers compare investor offers to retail prices, but investors have to account for repairs, taxes, insurance, utilities, holding costs, and resale fees.`,
@@ -501,6 +836,65 @@
       notrush: `That actually helps. When timing is flexible, sometimes we can structure something more creatively and potentially get you better terms.`
     };
 
+    // UI Handle Lock Toggles for Motivation Group
+    function handleTrackSelection(buttonElement, typeKey) {
+      const container = document.getElementById('motivationGroup');
+      container.querySelectorAll('button').forEach(btn => btn.classList.remove('active-selection'));
+      buttonElement.classList.add('active-selection');
+      setScript(typeKey);
+    }
+
+    // UI Handle Lock Toggles for Rebuttal Group
+    function handleRebuttalSelection(buttonElement, typeKey) {
+      const container = document.getElementById('rebuttalGroup');
+      container.querySelectorAll('button').forEach(btn => btn.classList.remove('active-selection'));
+      buttonElement.classList.add('active-selection');
+      setScript(typeKey);
+    }
+
+    // System Workspace Router Controller Switches
+    function changeWorkspaceRoute(routeKey) {
+      ACTIVE_WORKSPACE_VIEW = routeKey;
+      document.getElementById("btnNavNego").classList.remove("active");
+      document.getElementById("btnNavCalc").classList.remove("active");
+      document.getElementById("workspaceRouteNegotiation").classList.add("view-section-hidden");
+      document.getElementById("workspaceRouteAnalyzer").classList.add("view-section-hidden");
+      document.getElementById("analyzerSubMenu").classList.add("view-section-hidden");
+
+      if (routeKey === "negotiation") {
+        document.getElementById("btnNavNego").classList.add("active");
+        document.getElementById("workspaceRouteNegotiation").classList.remove("view-section-hidden");
+      } else {
+        document.getElementById("btnNavCalc").classList.add("active");
+        document.getElementById("workspaceRouteAnalyzer").classList.remove("view-section-hidden");
+        document.getElementById("analyzerSubMenu").classList.remove("view-section-hidden");
+        runActiveCalculatorCalculationsMatrix();
+      }
+    }
+
+    function changeAnalyzerMode(modeKey) {
+      ACTIVE_ANALYZER_MODE = modeKey;
+      document.getElementById("subBtnWholesale").classList.remove("active");
+      document.getElementById("subBtnRental").classList.remove("active");
+      document.getElementById("subBtnCreative").classList.remove("active");
+
+      document.querySelectorAll(".mode-view-wholesale").forEach(el => el.classList.add("view-section-hidden"));
+      document.querySelectorAll(".mode-view-rental").forEach(el => el.classList.add("view-section-hidden"));
+      document.querySelectorAll(".mode-view-creative").forEach(el => el.classList.add("view-section-hidden"));
+
+      if (modeKey === 'wholesale') {
+        document.getElementById("subBtnWholesale").classList.add("active");
+        document.querySelectorAll(".mode-view-wholesale").forEach(el => el.classList.remove("view-section-hidden"));
+      } else if (modeKey === 'rental') {
+        document.getElementById("subBtnRental").classList.add("active");
+        document.querySelectorAll(".mode-view-rental").forEach(el => el.classList.remove("view-section-hidden"));
+      } else if (modeKey === 'creative') {
+        document.getElementById("subBtnCreative").classList.add("active");
+        document.querySelectorAll(".mode-view-creative").forEach(el => el.classList.remove("view-section-hidden"));
+      }
+      runActiveCalculatorCalculationsMatrix();
+    }
+
     function toggleTheme() {
       const currentTheme = document.documentElement.getAttribute('data-theme');
       const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -508,84 +902,284 @@
       document.querySelector('.theme-toggle').innerText = targetTheme === 'dark' ? 'Toggle Light Mode' : 'Toggle Dark Mode';
     }
 
-    function setScript(type) {
-      document.getElementById('scriptOutput').innerText = scripts[type];
+    // Input String Formatter Normalization Utilities
+    function parseToNumericScalar(valueString) {
+      return parseFloat(valueString.replace(/[^0-9.-]/g, '')) || 0;
     }
 
-    function formatAndCalculate(input) {
-      let cursorPosition = input.selectionStart;
-      let originalLength = input.value.length;
+    function parseToCleanCurrencyRepresentation(numericScalar) {
+      return '$' + numericScalar.toLocaleString('en-US', { maximumFractionDigits: 0 });
+    }
+
+    function formatCurrencyString(nodeElement) {
+      let numericalRepresentation = nodeElement.value.replace(/[^0-9]/g, '');
+      if (numericalRepresentation) {
+        nodeElement.value = '$' + Number(numericalRepresentation).toLocaleString('en-US');
+      } else {
+        nodeElement.value = '';
+      }
+    }
+
+    // Dynamic Tracking Presenters 
+    function updateSellerName() {
+      const currentNameInput = document.getElementById('sellerName').value || '[Name]';
+      document.getElementById('displayName').innerText = currentNameInput;
+      calculate(); 
+    }
+
+    function setScript(typeKey) {
+      document.getElementById('scriptOutput').innerText = playbookScriptDatabase[typeKey];
+    }
+
+    function copyPain(painDescriptionText) {
+      const indicatorDisplayContainer = document.getElementById('selectedPain');
+      indicatorDisplayContainer.style.display = "inline-block";
+      indicatorDisplayContainer.innerText = 'Active Anchor: ' + painDescriptionText;
+      navigator.clipboard.writeText(painDescriptionText);
+    }
+
+    function formatAndCalculate(inputNode) {
+      let initialCursorIndex = inputNode.selectionStart;
+      let aggregateInitialLength = inputNode.value.length;
+      let strippedCleanValueStr = inputNode.value.replace(/[^0-9]/g, '');
       
-      let cleanValue = input.value.replace(/[^0-9]/g, '');
-      
-      if (cleanValue === '') {
-        input.value = '';
+      if (strippedCleanValueStr === '') {
+        inputNode.value = '';
         calculate();
         return;
       }
       
-      input.value = parseInt(cleanValue, 10).toLocaleString('en-US');
-      
-      let newLength = input.value.length;
-      input.setSelectionRange(cursorPosition + (newLength - originalLength), cursorPosition + (newLength - originalLength));
+      inputNode.value = parseInt(strippedCleanValueStr, 10).toLocaleString('en-US');
+      let adjustedLengthDelta = inputNode.value.length;
+      inputNode.setSelectionRange(initialCursorIndex + (adjustedLengthDelta - aggregateInitialLength), initialCursorIndex + (adjustedLengthDelta - aggregateInitialLength));
       
       calculate();
     }
 
-    function getNumericValue(id) {
-      const val = document.getElementById(id).value;
-      return parseFloat(val.replace(/[^0-9.-]/g, '')) || 0;
-    }
-
+    // Dynamic Relationship-Driven Cost Presentation Delivery Script Engine
     function calculate() {
-      const arv = getNumericValue('arv');
-      const sellingPrice = getNumericValue('sellingPrice');
-      const holding = getNumericValue('holding');
-      const repairs = getNumericValue('repairs');
-      const closing = getNumericValue('closing');
-      const sellingCost = getNumericValue('sellingCost');
-      const asking = getNumericValue('asking');
-      const sellerName = document.getElementById('sellerName').value || 'Seller';
+      const arv = parseToNumericScalar(document.getElementById('arv').value);
+      const sellingPrice = parseToNumericScalar(document.getElementById('sellingPrice').value);
+      const holding = parseToNumericScalar(document.getElementById('holding').value);
+      const repairs = parseToNumericScalar(document.getElementById('repairs').value);
+      const closing = parseToNumericScalar(document.getElementById('closing').value);
+      const sellingCost = parseToNumericScalar(document.getElementById('sellingCost').value);
+      const asking = parseToNumericScalar(document.getElementById('asking').value);
+      const currentSellerLabel = document.getElementById('sellerName').value || 'Seller';
 
       const breakEven = holding + repairs + closing + sellingCost + asking;
       const profit = sellingPrice - breakEven;
 
-      document.getElementById('breakEven').innerText = '$' + breakEven.toLocaleString('en-US');
-      document.getElementById('profitLoss').innerText = '$' + profit.toLocaleString('en-US');
+      document.getElementById('breakEven').innerText = parseToCleanCurrencyRepresentation(breakEven);
+      document.getElementById('profitLoss').innerText = parseToCleanCurrencyRepresentation(profit);
 
-      let script = `Look ${sellerName}, when we purchase properties in this market, we have to evaluate the file from an institutional investment perspective to protect our capital and ensure viability.
-
-` +
-      `If we complete a high-end capital renovation on this home, we project an After Repair Value (ARV) of roughly $${arv.toLocaleString('en-US')}.
+      let dialogueScriptOutputText = `Look ${currentSellerLabel}, I want to be completely transparent with you about how the math works out on my end so we can see if there is a way to make this make sense for both of us.
 
 ` +
-      `However, to realize that number, we have to inject an estimated $${repairs.toLocaleString('en-US')} into hard repairs. We also have to carry capital holding allocations of $${holding.toLocaleString('en-US')}, up-front closing costs of $${closing.toLocaleString('en-US')}, and standard brokerage asset disposal fees of $${sellingCost.toLocaleString('en-US')}.
+      `When a home is fully updated, modernized, and ready for the retail market, we look at an After Repair Value (ARV) of around ${parseToCleanCurrencyRepresentation(arv)}.
 
 ` +
-      `If we were to take on the property at your current asking framework of $${asking.toLocaleString('en-US')}, our baseline capital allocation totals $${breakEven.toLocaleString('en-US')}.
+      `But to safely get this property to that level, someone is going to have to step in and put an estimated ${parseToCleanCurrencyRepresentation(repairs)} straight into hard repairs. On top of the renovation budget, there are standard costs that hit every property change—like ${parseToCleanCurrencyRepresentation(holding)} in holding costs (taxes, insurance, utilities), ${parseToCleanCurrencyRepresentation(closing)} to close the initial purchase, and another ${parseToCleanCurrencyRepresentation(sellingCost)} in real estate commissions and transaction friction when it's eventually sold down the line.
+
+` +
+      `If we were to take the property on at your current asking price of ${parseToCleanCurrencyRepresentation(asking)}, the baseline total out-of-pocket costs to take over, rehab, and sell the home climbs up to ${parseToCleanCurrencyRepresentation(breakEven)}.
 
 `;
 
       if (profit > 0) {
-        script += `This leaves our firm with a forecasted operational margin of $${profit.toLocaleString('en-US')} prior to accounting for unforeseen structural variables, material delays, and shifts in regional risk.`;
+        dialogueScriptOutputText += `This leaves a standard projected business margin of ${parseToCleanCurrencyRepresentation(profit)} to cover the massive risk of structural variables, labor delays, or unexpected real estate market shifts.`;
       } else {
-        script += `At that request valuation, there is no viable yield available—in fact, our position would face a net write-down of $${Math.abs(profit).toLocaleString('en-US')}. To create a win-win scenario, we need to balance your needs with a number that leaves the transaction financially sound.`;
+        dialogueScriptOutputText += `As you can see, at that price point, the deal actually goes into the negative by ${parseToCleanCurrencyRepresentation(Math.abs(profit))}. I really want to help you find a solution, but to make this work, we have to look for a number that takes care of your timeline without turning into a loss on day one. Where do you think we have some room to move?`;
       }
 
-      document.getElementById('dealScript').innerText = script;
+      document.getElementById('dealScript').innerText = dialogueScriptOutputText;
     }
 
-    function copyPain(text) {
-      const el = document.getElementById('selectedPain');
-      el.style.display = "inline-block";
-      el.innerText = 'Active Anchor: ' + text;
-      navigator.clipboard.writeText(text);
+    // Analyzer Calculation Engine Matrix Route Coordinator
+    function runActiveCalculatorCalculationsMatrix() {
+      if (ACTIVE_ANALYZER_MODE === 'wholesale') {
+        runWholesaleEngineCalculations();
+      } else if (ACTIVE_ANALYZER_MODE === 'rental') {
+        runRentalEngineCalculations();
+      } else if (ACTIVE_ANALYZER_MODE === 'creative') {
+        runCreativeEngineCalculations();
+      }
     }
 
-    function updateSellerName() {
-      const sellerName = document.getElementById('sellerName').value || '[Name]';
-      document.getElementById('displayName').innerText = sellerName;
-      calculate(); 
+    function updateActiveRuleFactor(ruleFactorValueDecimal) {
+      CURRENT_RULE_PERCENT_FACTOR = ruleFactorValueDecimal;
+      document.querySelectorAll('.percent-btn').forEach(btn => btn.classList.remove('active'));
+      
+      if (ruleFactorValueDecimal === 0.60) document.getElementById("btnRule60").classList.add("active");
+      if (ruleFactorValueDecimal === 0.65) document.getElementById("btnRule65").classList.add("active");
+      if (ruleFactorValueDecimal === 0.70) document.getElementById("btnRule70").classList.add("active");
+      if (ruleFactorValueDecimal === 0.80) document.getElementById("btnRule80").classList.add("active");
+
+      document.getElementById("txtRuleDisplay").innerText = Math.round(ruleFactorValueDecimal * 100);
+      runWholesaleEngineCalculations();
+    }
+
+    // Wholesale Formula Real Estate Acquisition Automation Logic Modules
+    function runWholesaleEngineCalculations() {
+      let rawArvValue = parseToNumericScalar(document.getElementById("calcArv").value);
+      let rawRepairsValue = parseToNumericScalar(document.getElementById("calcRepairs").value);
+      let percentageFeeScalarInput = parseFloat(document.getElementById("calcWholesalePct").value) || 0;
+      let cushionBufferFactorSelection = parseFloat(document.getElementById("calcBuyerBuffer").value) || 0;
+
+      let structuralAssetTypeConfig = document.getElementById("calcPropType").value;
+      let baselineBedroomCountMetric = parseInt(document.getElementById("calcBeds").value) || 0;
+      let inlineKillBoxContainerElement = document.getElementById("calcKillBox");
+
+      // Automated Constraint Filter Check (2 Bedroom SFH Target Deal Killer Constraint Verification)
+      let portfolioDealKilledFlag = false;
+      if (structuralAssetTypeConfig === "SFH" && baselineBedroomCountMetric <= 2) {
+        inlineKillBoxContainerElement.style.display = "block";
+        portfolioDealKilledFlag = true;
+      } else {
+        inlineKillBoxContainerElement.style.display = "none";
+      }
+
+      let multipliedAsIsValue = rawArvValue * CURRENT_RULE_PERCENT_FACTOR;
+      let calculatedAssignmentFeeFee = multipliedAsIsValue * (percentageFeeScalarInput / 100);
+      let buyerCushionAllocationAmount = rawArvValue * cushionBufferFactorSelection;
+      
+      let computedMaximumAllowedOffer = portfolioDealKilledFlag ? 0 : (multipliedAsIsValue - rawRepairsValue - calculatedAssignmentFeeFee - buyerCushionAllocationAmount);
+
+      document.getElementById("calcMaoOutput").value = parseToCleanCurrencyRepresentation(computedMaximumAllowedOffer);
+      document.getElementById("compArv").innerText = parseToCleanCurrencyRepresentation(rawArvValue);
+      document.getElementById("compAsis").innerText = parseToCleanCurrencyRepresentation(multipliedAsIsValue);
+      document.getElementById("compRepairs").innerText = "-" + parseToCleanCurrencyRepresentation(rawRepairsValue);
+      document.getElementById("compFee").innerText = "-" + parseToCleanCurrencyRepresentation(calculatedAssignmentFeeFee);
+      document.getElementById("compBuffer").innerText = "-" + parseToCleanCurrencyRepresentation(buyerCushionAllocationAmount);
+      document.getElementById("compMao").innerText = parseToCleanCurrencyRepresentation(computedMaximumAllowedOffer);
+
+      let prospectiveCashEndBuyerValue = rawArvValue * 0.76 - rawRepairsValue;
+      if (prospectiveCashEndBuyerValue < 0) prospectiveCashEndBuyerValue = 0;
+      document.getElementById("yieldBuyerPrice").innerText = parseToCleanCurrencyRepresentation(prospectiveCashEndBuyerValue);
+
+      let structuralAssignmentSpreadYield = portfolioDealKilledFlag ? 0 : (prospectiveCashEndBuyerValue - computedMaximumAllowedOffer);
+      if (structuralAssignmentSpreadYield < 0 && !portfolioDealKilledFlag) structuralAssignmentSpreadYield = 0;
+      document.getElementById("yieldWholesaleSpread").innerText = parseToCleanCurrencyRepresentation(structuralAssignmentSpreadYield);
+
+      let dealClassificationGradeOutputLabel = "Low Spread Margin";
+      if (structuralAssignmentSpreadYield >= 5000) dealClassificationGradeOutputLabel = "👍 Standard Target Profit";
+      if (structuralAssignmentSpreadYield >= 12000) dealClassificationGradeOutputLabel = "🔥 Strong Asset Spread";
+      if (structuralAssignmentSpreadYield >= 20000) dealClassificationGradeOutputLabel = "🚀 Home Run Yield Spread";
+      if (portfolioDealKilledFlag) dealClassificationGradeOutputLabel = "❌ ASSET PLACEMENT KILLED";
+      document.getElementById("yieldGrade").innerText = dealClassificationGradeOutputLabel;
+    }
+
+    // Rental Optimization Math Metrics Calculations Module Logic
+    function runRentalEngineCalculations() {
+      let monthlyRentalIncomeYield = parseToNumericScalar(document.getElementById("rentGross").value);
+      let initialInvestmentAssetPurchasePrice = parseToNumericScalar(document.getElementById("rentPurchase").value);
+      let totalDownPaymentOutlayCapital = parseToNumericScalar(document.getElementById("rentDown").value);
+      let monthlyDebtPaymentPrincipalInterest = parseToNumericScalar(document.getElementById("rentMortgage").value);
+      let aggregateOperatingExpensesOverhead = parseToNumericScalar(document.getElementById("rentExpenses").value);
+
+      let netMonthlyRentalLiquidCashflow = monthlyRentalIncomeYield - monthlyDebtPaymentPrincipalInterest - aggregateOperatingExpensesOverhead;
+      let annualizedCalculatedLiquidCashflow = netMonthlyRentalLiquidCashflow * 12;
+      let cashOnCashPerformanceYieldRate = totalDownPaymentOutlayCapital > 0 ? (annualizedCalculatedLiquidCashflow / totalDownPaymentOutlayCapital) * 100 : 0;
+
+      let netAnnualOperatingIncomeValue = (monthlyRentalIncomeYield - aggregateOperatingExpensesOverhead) * 12;
+      let assetPortfolioCapitalizationRateValue = initialInvestmentAssetPurchasePrice > 0 ? (netAnnualOperatingIncomeValue / initialInvestmentAssetPurchasePrice) * 100 : 0;
+
+      document.getElementById("mRentGross").innerText = parseToCleanCurrencyRepresentation(monthlyRentalIncomeYield);
+      document.getElementById("mRentDebt").innerText = "-" + parseToCleanCurrencyRepresentation(monthlyDebtPaymentPrincipalInterest);
+      document.getElementById("mRentExp").innerText = "-" + parseToCleanCurrencyRepresentation(aggregateOperatingExpensesOverhead);
+      document.getElementById("mRentCashflow").innerText = parseToCleanCurrencyRepresentation(netMonthlyRentalLiquidCashflow);
+      document.getElementById("mRentCoc").innerText = cashOnCashPerformanceYieldRate.toFixed(2) + "%";
+      document.getElementById("mRentCap").innerText = assetPortfolioCapitalizationRateValue.toFixed(2) + "%";
+    }
+
+    // Creative Structuring Compliance Strategy Script Formula Matrix Logic
+    function runCreativeEngineCalculations() {
+      let targetCreativeAgreedPurchasePrice = parseToNumericScalar(document.getElementById("creativePrice").value);
+      let downPaymentCapitalRequirement = parseToNumericScalar(document.getElementById("creativeDown").value);
+      let structuralTermsAmortizationLengthMonths = parseFloat(document.getElementById("creativeTerms").value) || 1;
+      let targetGrossRentalMonthlyRevenue = parseToNumericScalar(document.getElementById("creativeRent").value);
+      let fixedPropertyMaintenanceOperatingExpenses = parseToNumericScalar(document.getElementById("creativeExpenses").value);
+      let strategySelectionProfileType = document.getElementById("creativeStructure").value;
+
+      let remainingFinancedPrincipalLoanBalance = targetCreativeAgreedPurchasePrice - downPaymentCapitalRequirement;
+      if (remainingFinancedPrincipalLoanBalance < 0) remainingFinancedPrincipalLoanBalance = 0;
+
+      let computedMonthlyDebtAmortizationRepayment = remainingFinancedPrincipalLoanBalance / structuralTermsAmortizationLengthMonths;
+      if (structuralTermsAmortizationLengthMonths <= 0) computedMonthlyDebtAmortizationRepayment = 0;
+
+      let totalMonthlyOutboundCostBurn = computedMonthlyDebtAmortizationRepayment + fixedPropertyMaintenanceOperatingExpenses;
+      let netCreativeMonthlyCashflowYieldSpread = targetGrossRentalMonthlyRevenue - totalMonthlyOutboundCostBurn;
+      let annualizedCreativeCashflowYield = netCreativeMonthlyCashflowYieldSpread * 12;
+      let creativeCashOnCashPerformanceYieldRate = downPaymentCapitalRequirement > 0 ? (annualizedCreativeCashflowYield / downPaymentCapitalRequirement) * 100 : 0;
+
+      document.getElementById("mCreFinanced").innerText = parseToCleanCurrencyRepresentation(remainingFinancedPrincipalLoanBalance);
+      document.getElementById("mCreDebt").innerText = "-" + parseToCleanCurrencyRepresentation(computedMonthlyDebtAmortizationRepayment);
+      document.getElementById("mCreExp").innerText = "-" + parseToCleanCurrencyRepresentation(fixedPropertyMaintenanceOperatingExpenses);
+      document.getElementById("mCreCashflow").innerText = parseToCleanCurrencyRepresentation(netCreativeMonthlyCashflowYieldSpread);
+      document.getElementById("mCreCoc").innerText = creativeCashOnCashPerformanceYieldRate.toFixed(2) + "%";
+
+      let strategyLabelTextString = strategySelectionProfileType === "PO" ? "Owner Financing under a Principal-Only payments structure" : "Subject-To acquisition formatting profile logistics parameters";
+      let liveTextBriefingLog = `Creative Investment File Setup Summary Documentation:\n` +
+                                `Transaction mapped utilizing an initial down payment framework of ${parseToCleanCurrencyRepresentation(downPaymentCapitalRequirement)} with a remaining financed asset structural balance of ${parseToCleanCurrencyRepresentation(remainingFinancedPrincipalLoanBalance)} structured as ${strategyLabelTextString}.\n\n` +
+                                `The underwriting parameters require monthly operational amortizations of ${parseToCleanCurrencyRepresentation(computedMonthlyDebtAmortizationRepayment)} spanning a horizon timeline of ${structuralTermsAmortizationLengthMonths} structural months, targeting a prospective net cash flow yield spread of ${parseToCleanCurrencyRepresentation(netCreativeMonthlyCashflowYieldSpread)} monthly.`;
+      
+      document.getElementById("creativeScriptDisplay").innerText = liveTextBriefingLog;
+    }
+
+    // Dynamic Clipboard Compilation Dispatcher
+    function copyStructuredOfferClipboardText() {
+      let trackingArvValue = parseToNumericScalar(document.getElementById("calcArv").value);
+      let estimatedRepairsBudgetVal = parseToNumericScalar(document.getElementById("calcRepairs").value);
+      let maximumOfferCalculatedLimitVal = parseToNumericScalar(document.getElementById("calcMaoOutput").value);
+      let specifiedPropertyAssetAddress = document.getElementById("calcAddress").value || "Target Property Location Portfolio File Reference";
+
+      if (maximumOfferCalculatedLimitVal <= 0) {
+        alert("Cannot compile offer summaries for killed or unconfigured real estate asset vectors.");
+        return;
+      }
+
+      let clipboardCompiledBlockTextString = `PROPOSED TRANSACTION INVESTMENT BRIEFING\n\n`;
+      clipboardCompiledBlockTextString += `Asset Target Address: ${specifiedPropertyAssetAddress}\n`;
+      clipboardCompiledBlockTextString += `After Repair Value (ARV) Target Baseline: ${parseToCleanCurrencyRepresentation(trackingArvValue)}\n`;
+      clipboardCompiledBlockTextString += `Estimated Project Rehabilitation Allocation Costs: ${parseToCleanCurrencyRepresentation(estimatedRepairsBudgetVal)}\n\n`;
+      clipboardCompiledBlockTextString += `Maximum Proposed Purchase Option Positioning: ${parseToCleanCurrencyRepresentation(maximumOfferCalculatedLimitVal)}\n\n`;
+      clipboardCompiledBlockTextString += `CORE ACQUISITION TRANSACTION DIRECTIVES:\n`;
+      clipboardCompiledBlockTextString += `- Purchase agreement closing lifecycle parameters are designated strictly within 30 days.\n`;
+      clipboardCompiledBlockTextString += `- Transaction processing will execute using our specific company assignment contract forms and preferred title company.\n`;
+      clipboardCompiledBlockTextString += `- Seller Finance transaction iterations must define Principal-Only payments schedules exclusively.\n\n`;
+      clipboardCompiledBlockTextString += `Swift Equity Solutions Acquisition Hub Operations`;
+
+      navigator.clipboard.writeText(clipboardCompiledBlockTextString).then(() => {
+        alert("Property Transaction Assignment Briefing logged to system clipboard successfully.");
+      });
+    }
+
+    function resetActiveCalculatorForms() {
+      if (ACTIVE_ANALYZER_MODE === 'wholesale') {
+        document.getElementById("calcAddress").value = '';
+        document.getElementById("calcArv").value = '';
+        document.getElementById("calcRepairs").value = '';
+        document.getElementById("calcWholesalePct").value = '5';
+        document.getElementById("calcBeds").value = '3';
+        document.getElementById("calcPropType").value = 'SFH';
+        document.getElementById("calcBuyerBuffer").value = '0.15';
+        updateActiveRuleFactor(0.60);
+      } else if (ACTIVE_ANALYZER_MODE === 'rental') {
+        document.getElementById("rentGross").value = '';
+        document.getElementById("rentPurchase").value = '';
+        document.getElementById("rentDown").value = '';
+        document.getElementById("rentMortgage").value = '';
+        document.getElementById("rentExpenses").value = '';
+        runRentalEngineCalculations();
+      } else if (ACTIVE_ANALYZER_MODE === 'creative') {
+        document.getElementById("creativePrice").value = '';
+        document.getElementById("creativeDown").value = '';
+        document.getElementById("creativeTerms").value = '360';
+        document.getElementById("creativeRent").value = '';
+        document.getElementById("creativeExpenses").value = '';
+        document.getElementById("creativeStructure").value = 'PO';
+        runCreativeEngineCalculations();
+      }
     }
   </script>
 
